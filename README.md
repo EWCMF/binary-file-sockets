@@ -1,6 +1,6 @@
 # binary-file-sockets
 
-Two simple self-contained JavaFX application to send data via sockets in a local network. 
+Two simple self-contained JavaFX applications to send data via sockets in a local network. 
 The port used are 1337 and 1338 so make sure those aren't already in use if you wish to use the applications.
 
 The app images were built on a Windows PC and therefore only work on that OS. Versions compatible with other systems might be built at another time. 
