@@ -1,6 +1,6 @@
 # binary-file-sockets
 
-Two simple JavaFX application to send data via sockets in a local network. 
+Two simple self-contained JavaFX application to send data via sockets in a local network. 
 The port used are 1337 and 1338 so make sure those aren't already in use if you wish to use the applications.
 
 The apps use MD5 checksum to ensure file integrity and also support resuming downloads after dropped connections.
