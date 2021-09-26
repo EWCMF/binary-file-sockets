@@ -1,4 +1,4 @@
-module BinaryFileReceiveSockets {
+module BinaryFileSocketsReceive {
     requires javafx.graphics;
     requires javafx.fxml;
     requires javafx.controls;

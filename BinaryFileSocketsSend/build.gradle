@@ -22,6 +22,12 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+jlink {
+    jpackage {
+        imageOptions = ["--icon", "src/main/resources/send.ico"]
+    }
+}
+
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
