@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.beryx.jlink' version '2.24.2'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+compileJava.options.encoding("UTF-8")
+compileTestJava.options.encoding("UTF-8")
+
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+application.mainClassName = "main.Main"
+application.mainModule = "BinaryFileSocketsReceive"
+
+javafx {
+    version = '17'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
+}
+
+test {
+    useJUnitPlatform()
+}
