@@ -25,7 +25,7 @@ public class StartController {
     @FXML
     private Button button, locationButton;
 
-    private static String inputLocation = System.getProperty("user.home") + "/Downloads";
+    private static String inputLocation = System.getProperty("user.home") + File.separator + "Downloads";
 
     private ServerSocket server;
     private String currentClient;
@@ -201,7 +201,7 @@ public class StartController {
                             Platform.runLater(() -> {
                                 speedLabel.setText(String.format("Read %,d bytes", downloadingFile.getFileSize()));
                                 progressLabel.setText("Downloading: 100%");
-                                downloadedLabel.setText("Comparing file checksums");
+                                downloadedLabel.setText("Comparing file checksum");
                             });
 
                             String checksum = getFileChecksum(file);
