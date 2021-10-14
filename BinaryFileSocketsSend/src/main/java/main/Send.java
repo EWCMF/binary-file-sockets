@@ -49,7 +49,7 @@ public class Send {
     public void send(String host, String filePath, long filePosition) throws IOException {
         Socket socket = null;
         DataOutputStream dataOutputStream = null;
-        ByteArrayInputStream byteArrayInputStream = null;
+        RandomAccessFile randomAccessFile = null;
         try {
             socket = new Socket(host, Constants.RECEIVE_APP_PORT);
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -65,23 +65,19 @@ public class Send {
 
             dataOutputStream.writeInt(Constants.READY);
 
-            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+            randomAccessFile = new RandomAccessFile(file, "r");
             randomAccessFile.seek(filePosition);
 
-            byte[] byteArray = new byte[(int) file.length()];
-            randomAccessFile.readFully(byteArray);
-
-            byteArrayInputStream = new ByteArrayInputStream(byteArray);
             int count;
             byte[] buffer = new byte[Constants.IDEAL_BUFFER_SIZE];
-            while ((count = byteArrayInputStream.read(buffer)) > 0) {
+            while ((count = randomAccessFile.read(buffer)) > 0) {
                 dataOutputStream.write(buffer, 0, count);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (byteArrayInputStream != null) {
-                byteArrayInputStream.close();
+            if (randomAccessFile != null) {
+                randomAccessFile.close();
             }
             if (dataOutputStream != null) {
                 dataOutputStream.close();
@@ -133,5 +129,23 @@ public class Send {
             sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();
+    }
+
+    private byte[] longToBytes(long l) {
+        byte[] result = new byte[Long.BYTES];
+        for (int i = Long.BYTES - 1; i >= 0; i--) {
+            result[i] = (byte)(l & 0xFF);
+            l >>= Byte.SIZE;
+        }
+        return result;
+    }
+
+    private long bytesToLong(final byte[] b) {
+        long result = 0;
+        for (int i = 0; i < Long.BYTES; i++) {
+            result <<= Byte.SIZE;
+            result |= (b[i] & 0xFF);
+        }
+        return result;
     }
 }

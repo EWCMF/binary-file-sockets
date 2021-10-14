@@ -6,6 +6,19 @@
 <?import javafx.scene.text.*?>
 
 <VBox prefHeight="64.0" prefWidth="600.0" spacing="8.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.StartController">
+   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Location">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Label>
+   <Label fx:id="locationLabel" alignment="CENTER" contentDisplay="BOTTOM" maxWidth="1.7976931348623157E308" text="Location" />
+   <HBox alignment="CENTER">
+      <children>
+         <Button fx:id="locationButton" mnemonicParsing="false" onAction="#changeLocation" text="Change" />
+      </children>
+      <VBox.margin>
+         <Insets bottom="16.0" />
+      </VBox.margin>
+   </HBox>
    <Label fx:id="mainLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Main">
       <font>
          <Font name="System Bold" size="12.0" />

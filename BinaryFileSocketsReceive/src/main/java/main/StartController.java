@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -19,12 +20,12 @@ import java.util.ArrayList;
 public class StartController {
 
     @FXML
-    private Label mainLabel, fileNameLabel, fileSizeLabel, progressLabel, speedLabel, downloadedLabel;
+    private Label mainLabel, fileNameLabel, fileSizeLabel, progressLabel, speedLabel, downloadedLabel, locationLabel;
 
     @FXML
-    private Button button;
+    private Button button, locationButton;
 
-    private static final String inputLocation = System.getProperty("user.home") + "/Downloads/";
+    private static String inputLocation = System.getProperty("user.home") + "/Downloads";
 
     private ServerSocket server;
     private String currentClient;
@@ -36,6 +37,7 @@ public class StartController {
     private boolean shuttingDown;
 
     public void initialize() {
+        locationLabel.setText(inputLocation);
         mainLabel.setText("");
         fileNameLabel.setText("");
         fileSizeLabel.setText("");
@@ -43,6 +45,7 @@ public class StartController {
         speedLabel.setText("");
         downloadedLabel.setText("");
         button.setVisible(false);
+        locationButton.setVisible(true);
         shuttingDown = false;
         downloaded = 0;
         received = 0;
@@ -72,6 +75,7 @@ public class StartController {
                 }
 
                 Platform.runLater(() -> {
+                    locationLabel.setText(inputLocation);
                     mainLabel.setText("Server ready");
                     fileNameLabel.setText("");
                     fileSizeLabel.setText("");
@@ -79,6 +83,7 @@ public class StartController {
                     speedLabel.setText("");
                     downloadedLabel.setText("");
                     button.setVisible(false);
+                    locationButton.setVisible(true);
                 });
 
 
@@ -92,7 +97,10 @@ public class StartController {
                 }
 
                 received = numOfFiles;
-                Platform.runLater(() -> mainLabel.setText(received + " File(s) received. Preparing download(s)"));
+                Platform.runLater(() -> {
+                    mainLabel.setText(received + " File(s) received. Preparing download(s)");
+                    locationButton.setVisible(false);
+                });
                 processingFiles = new ArrayList<>();
                 errors = new ArrayList<>();
                 in = new DataInputStream(socket.getInputStream());
@@ -105,7 +113,7 @@ public class StartController {
                     String inputPath = in.readUTF();
                     String inputMD5 = in.readUTF();
 
-                    File file = new File(inputLocation + fileName);
+                    File file = new File(inputLocation + File.separator + fileName);
                     if (file.exists()) {
                         errors.add(String.format("%s already exists", fileName));
                     } else {
@@ -299,5 +307,22 @@ public class StartController {
             sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
         }
         return sb.toString();
+    }
+
+    @FXML
+    private void changeLocation() {
+        if (!locationButton.isVisible()) {
+            return;
+        }
+        Stage stage = (Stage) button.getScene().getWindow();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose folder");
+        File file = new File(inputLocation);
+        directoryChooser.setInitialDirectory(file);
+        File selected = directoryChooser.showDialog(stage);
+        if (selected != null) {
+            inputLocation = selected.getAbsolutePath();
+            locationLabel.setText(inputLocation);
+        }
     }
 }
