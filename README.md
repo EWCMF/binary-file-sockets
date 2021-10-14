@@ -9,4 +9,4 @@ The apps use MD5 checksum to ensure file integrity and also support resuming dow
 
 Check your firewall if the sending app's 'scan network' function doesn't find a PC running the receiving app. It might be blocked.
 
-The output location is the downloads folder of the current user.
+The default output location is the downloads folder of the current user but this can be changed in the receiving app.
